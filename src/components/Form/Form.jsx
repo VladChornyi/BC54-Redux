@@ -6,14 +6,19 @@ import { useDispatch } from 'react-redux';
 const Form = () => {
   const [state, setState] = useState({
     name: '',
-    adress: '',
+    address: '',
     email: '',
   });
+  const dispatch = useDispatch();
   const changeState = ({ target }) => {
     setState(prev => ({ ...prev, [target.name]: target.value }));
   };
 
-  const dispatch = useDispatch();
+  const handleSubmit = e => {
+    e.preventDefault();
+    // dispatch();
+  };
+
   return (
     <form>
       <input
@@ -25,9 +30,9 @@ const Form = () => {
       />
       <input
         type="text"
-        placeholder="adress"
-        name="adress"
-        value={state.adress}
+        placeholder="address"
+        name="address"
+        value={state.address}
         onChange={changeState}
       />
       <input
