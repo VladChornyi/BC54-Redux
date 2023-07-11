@@ -5,11 +5,16 @@ const initialState = {
   users: [],
   error: null,
   loading: false,
+  filter: '',
 };
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    filterUsersAction: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
 
   extraReducers: builder => {
     builder
@@ -27,7 +32,6 @@ const usersSlice = createSlice({
         state.loading = true;
       })
       .addCase(setUsersThunk.fulfilled, (state, { payload }) => {
-        state.users = [...state.users, payload];
         state.loading = false;
         state.error = null;
       })
@@ -45,10 +49,13 @@ const usersSlice = createSlice({
         state.users = state.users.filter(user => user.id !== payload);
         state.loading = false;
       })
-      .addCase(removeUserThunk.rejected, (state, {payload}) => {
+      .addCase(removeUserThunk.rejected, (state, { payload }) => {
         state.error = payload;
         state.loading = false;
-      })
-    }});
+      });
+  },
+});
 
 export default usersSlice.reducer;
+
+export const { filterUsersAction } = usersSlice.actions;

@@ -29,10 +29,10 @@ export const removeUserThunk = createAsyncThunk(
   `users/removeUser`,
   async (id, { rejectWithValue }) => {
     try {
-      await deleteUser(id)
+      await deleteUser(id);
       return id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
-)
+);

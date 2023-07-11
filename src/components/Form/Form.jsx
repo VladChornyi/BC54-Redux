@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUsersThunk } from 'redux/thunks';
+import { getUsersThunk, setUsersThunk } from 'redux/thunks';
 
 const Form = () => {
   // const [state, setState] = useState({
@@ -24,7 +24,7 @@ const Form = () => {
     e.preventDefault();
     dispatch(setUsersThunk({ name, address, email }))
       .unwrap()
-      .then(console.log);
+      .then(() => dispatch(getUsersThunk()));
     setName('');
     setAddress('');
     setEmail('');
