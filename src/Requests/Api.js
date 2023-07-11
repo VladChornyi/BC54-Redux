@@ -14,6 +14,8 @@ export const addUsers = async user => {
   return data;
 };
 
+export const deleteUser = (id) => usersApi.delete(`/users/${id}`);
+
 // GET
 // /users/:id
 

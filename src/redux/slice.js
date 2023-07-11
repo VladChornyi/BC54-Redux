@@ -1,5 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { getUsersThunk, setUsersThunk } from './thunks';
+import { getUsersThunk, removeUserThunk, setUsersThunk } from './thunks';
 
 const initialState = {
   users: [],
@@ -37,8 +37,18 @@ const usersSlice = createSlice({
       .addCase(setUsersThunk.rejected, (state, { payload }) => {
         state.error = payload;
         state.loading = false;
-      });
-  },
-});
+      })
+      .addCase(removeUserThunk.pending, state => {
+        state.loading = true;
+      })
+      .addCase(removeUserThunk.fulfilled, (state, { payload }) => {
+        state.users = state.users.filter(user => user.id !== payload);
+        state.loading = false;
+      })
+      .addCase(removeUserThunk.rejected, (state, {payload}) => {
+        state.error = payload;
+        state.loading = false;
+      })
+    }});
 
 export default usersSlice.reducer;

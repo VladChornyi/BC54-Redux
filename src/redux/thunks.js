@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addUsers, fetchUsers } from 'Requests/Api';
+import { addUsers, deleteUser, fetchUsers } from 'Requests/Api';
 
 export const getUsersThunk = createAsyncThunk(
   'users/fetchAll',
@@ -24,3 +24,15 @@ export const setUsersThunk = createAsyncThunk(
     }
   }
 );
+
+export const removeUserThunk = createAsyncThunk(
+  `users/removeUser`,
+  async (id, { rejectWithValue }) => {
+    try {
+      await deleteUser(id)
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
