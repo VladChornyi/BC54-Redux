@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUsers } from 'Requests/Api';
+import { addUsers, fetchUsers } from 'Requests/Api';
 
 export const getUsersThunk = createAsyncThunk(
   'users/fetchAll',
@@ -9,6 +9,18 @@ export const getUsersThunk = createAsyncThunk(
       return response;
     } catch (err) {
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const setUsersThunk = createAsyncThunk(
+  `users/addUser`,
+  async (user, { rejectWithValue }) => {
+    try {
+      const res = await addUsers(user);
+      return res;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );

@@ -2,47 +2,58 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { setUsersThunk } from 'redux/thunks';
 
 const Form = () => {
-  const [state, setState] = useState({
-    name: '',
-    address: '',
-    email: '',
-  });
+  // const [state, setState] = useState({
+  //   name: '',
+  //   address: '',
+  //   email: '',
+  // });
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const userMap = { name: setName, address: setAddress, email: setEmail };
+
   const dispatch = useDispatch();
   const changeState = ({ target }) => {
-    setState(prev => ({ ...prev, [target.name]: target.value }));
+    userMap[target.name](target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    // dispatch();
+    dispatch(setUsersThunk({ name, address, email }))
+      .unwrap()
+      .then(console.log);
+    setName('');
+    setAddress('');
+    setEmail('');
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="name"
         name="name"
-        value={state.name}
+        value={name}
         onChange={changeState}
       />
       <input
         type="text"
         placeholder="address"
         name="address"
-        value={state.address}
+        value={address}
         onChange={changeState}
       />
       <input
         type="email"
         placeholder="mail"
         name="email"
-        value={state.email}
+        value={email}
         onChange={changeState}
       />
-      <button type="submit"></button>
+      <button type="submit">Add User</button>
     </form>
   );
 };

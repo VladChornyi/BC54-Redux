@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { getUsersThunk } from './thunks';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { getUsersThunk, setUsersThunk } from './thunks';
 
 const initialState = {
   users: [],
@@ -14,6 +14,7 @@ const usersSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(getUsersThunk.fulfilled, (state, { payload }) => {
+        // console.log(current(state));
         state.users = payload;
         state.loading = false;
         state.error = null;
@@ -24,6 +25,18 @@ const usersSlice = createSlice({
       })
       .addCase(getUsersThunk.pending, state => {
         state.loading = true;
+      })
+      .addCase(setUsersThunk.fulfilled, (state, { payload }) => {
+        state.users = [...state.users, payload];
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(setUsersThunk.pending, state => {
+        state.loading = true;
+      })
+      .addCase(setUsersThunk.rejected, (state, { payload }) => {
+        state.error = payload;
+        state.loading = false;
       });
   },
 });
